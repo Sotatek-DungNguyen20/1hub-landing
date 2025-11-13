@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1Hub - Một Tài Khoản, Vô Vạn Khả Năng</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #0066FF 0%, #00B4FF 50%, #7B61FF 100%);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #0066FF 0%, #7B61FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 102, 255, 0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #0066FF 0%, #00B4FF 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 102, 255, 0.4);
+        }
+        
+        .section-padding {
+            padding: 100px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .section-padding {
+                padding: 60px 0;
+            }
+        }
+        
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, #0066FF 0%, #7B61FF 100%);
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .security-layer {
+            position: relative;
+            padding: 2rem;
+            border: 2px solid rgba(0, 102, 255, 0.3);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+        
+        .comparison-table {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison-table {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .accordion-item {
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .accordion-button {
+            width: 100%;
+            text-align: left;
+            padding: 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .accordion-button:hover {
+            background: #f3f4f6;
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .accordion-content.active {
+            max-height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Navbar Component
+        const Navbar = () => {
+            const [scrolled, setScrolled] = useState(false);
+
+            useEffect(() => {
+                const handleScroll = () => {
+                    setScrolled(window.scrollY > 50);
+                };
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            return (
+                <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white shadow-lg' : 'bg-transparent'}`}>
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex justify-between items-center h-16">
+                            <div className="flex items-center">
+                                <span className="text-2xl font-bold gradient-text">1Hub</span>
+                            </div>
+                            <div className="hidden md:flex space-x-8">
+                                <a href="#features" className="text-gray-700 hover:text-blue-600 transition">Tính năng</a>
+                                <a href="#benefits" className="text-gray-700 hover:text-blue-600 transition">Lợi ích</a>
+                                <a href="#trust" className="text-gray-700 hover:text-blue-600 transition">Bảo mật</a>
+                                <a href="#how-it-works" className="text-gray-700 hover:text-blue-600 transition">Cách dùng</a>
+                                <a href="#faq" className="text-gray-700 hover:text-blue-600 transition">FAQ</a>
+                            </div>
+                            <button className="btn-primary text-white px-6 py-2 rounded-full font-semibold">
+                                Tải ngay
+                            </button>
+                        </div>
+                    </div>
+                </nav>
+            );
+        };
+
+        // Hero Section
+        const HeroSection = () => {
+            return (
+                <section className="gradient-bg min-h-screen flex items-center justify-center relative overflow-hidden">
+                    <div className="absolute inset-0 opacity-20">
+                        <div className="absolute top-20 left-10 w-72 h-72 bg-white rounded-full blur-3xl animate-float"></div>
+                        <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-300 rounded-full blur-3xl animate-float" style={{animationDelay: '2s'}}></div>
+                    </div>
+                    
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+                        <div className="text-center animate-fade-in-up">
+                            <h1 className="text-5xl md:text-7xl font-black text-white mb-6 leading-tight">
+                                MỘT TÀI KHOẢN<br/>
+                                VÔ VẠN KHẢ NĂNG
+                            </h1>
+                            <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
+                                Siêu ứng dụng đầu tiên tại Việt Nam kết nối thế giới Web2 & Web3 trong một nền tảng duy nhất
+                            </p>
+                            
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+                                <button className="bg-white text-blue-600 px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-xl">
+                                    Trải nghiệm ngay
+                                </button>
+                                <button className="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-blue-600 transition-all">
+                                    Tìm hiểu thêm
+                                </button>
+                            </div>
+                            
+                            <div className="bg-white/10 backdrop-blur-lg rounded-2xl px-8 py-4 inline-block mb-8">
+                                <p className="text-2xl font-bold text-yellow-300">
+                                    "Your Identity, Your Assets"
+                                </p>
+                                <p className="text-white/90 text-center mt-2">
+                                    Bảo vệ danh tính và tài sản của bạn là ưu tiên hàng đầu
+                                </p>
+                            </div>
+                            
+                            <div className="flex flex-wrap justify-center gap-8 text-white">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-2xl">✓</span>
+                                    <span>Tích hợp CMND Quốc Gia</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-2xl">✓</span>
+                                    <span>Bảo mật cấp ngân hàng</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-2xl">✓</span>
+                                    <span>100% kiểm soát dữ liệu</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // Problem Solution Section
+        const ProblemSolutionSection = () => {
+            return (
+                <section className="section-padding bg-gray-50">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                                Bạn có đang đối mặt với những <span className="gradient-text">vấn đề này?</span>
+                            </h2>
+                        </div>
+                        
+                        <div className="comparison-table">
+                            <div className="space-y-6">
+                                <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+                                    <span className="text-4xl">😰</span> HIỆN TẠI
+                                </h3>
+                                {[
+                                    { icon: '🔑', text: '20+ tài khoản riêng biệt' },
+                                    { icon: '📋', text: 'eKYC lặp đi lặp lại' },
+                                    { icon: '🤯', text: 'Web3 quá phức tạp' },
+                                    { icon: '🔓', text: 'Dữ liệu rò rỉ khắp nơi' },
+                                    { icon: '🌍', text: 'Web2 & Web3 tách biệt' }
+                                ].map((item, index) => (
+                                    <div key={index} className="bg-white p-6 rounded-xl shadow-md flex items-center gap-4 border-l-4 border-red-500">
+                                        <span className="text-3xl">{item.icon}</span>
+                                        <span className="text-lg text-gray-700">{item.text}</span>
+                                    </div>
+                                ))}
+                            </div>
+                            
+                            <div className="space-y-6">
+                                <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+                                    <span className="text-4xl">✨</span> VỚI 1HUB
+                                </h3>
+                                {[
+                                    { icon: '🎯', text: 'Chỉ 1 tài khoản duy nhất' },
+                                    { icon: '⚡', text: 'eKYC một lần, dùng mãi mãi' },
+                                    { icon: '🎨', text: 'Giao diện thân thiện, dễ hiểu' },
+                                    { icon: '🛡️', text: 'Bảo mật tuyệt đối, bạn kiểm soát' },
+                                    { icon: '🌉', text: 'Kết nối liền mạch 2 thế giới' }
+                                ].map((item, index) => (
+                                    <div key={index} className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl shadow-md flex items-center gap-4 border-l-4 border-green-500 card-hover">
+                                        <span className="text-3xl">{item.icon}</span>
+                                        <span className="text-lg font-semibold text-gray-800">{item.text}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // Features Section
+        const FeaturesSection = () => {
+            const features = [
+                {
+                    icon: '🌐',
+                    title: 'Siêu Ứng Dụng Toàn Diện',
+                    description: 'Kết nối liền mạch giữa Web2 (mạng xã hội, thanh toán, ngân hàng) và Web3 (crypto, blockchain, NFT) trong một nền tảng duy nhất.',
+                    items: ['Mạng xã hội & Banking', 'Crypto & Blockchain', 'Miniapp từ đối tác hợp pháp']
+                },
+                {
+                    icon: '🎫',
+                    title: 'Một Tài Khoản - Tất Cả Dịch Vụ',
+                    description: 'eKYC một lần với Cơ Sở Hạ Tầng CMND Quốc Gia, tự động xác thực cho mọi dịch vụ.',
+                    items: ['eKYC một lần', 'Tự động xác thực', 'Tiết kiệm 90% thời gian']
+                },
+                {
+                    icon: '👤',
+                    title: 'Bạn Là Chủ Nhân Dữ Liệu',
+                    description: 'Quyền quyết định tuyệt đối về việc chia sẻ thông tin. Minh bạch, kiểm soát hoàn toàn.',
+                    items: ['Tự quyết định chia sẻ', 'Xem lịch sử truy cập', 'Thu hồi quyền bất cứ lúc nào']
+                },
+                {
+                    icon: '🔐',
+                    title: 'Bảo Mật Tối Thượng',
+                    description: 'Công nghệ bảo mật đẳng cấp thế giới với Zero-Knowledge Proof và mã hóa đa lớp.',
+                    items: ['Zero-Knowledge Proof', 'Mã hóa đa lớp', 'Bảo mật phân tán']
+                }
+            ];
+
+            return (
+                <section id="features" className="section-padding bg-white">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                                1Hub mang đến <span className="gradient-text">điều gì cho bạn?</span>
+                            </h2>
+                        </div>
+                        
+                        <div className="grid md:grid-cols-2 gap-8">
+                            {features.map((feature, index) => (
+                                <div key={index} className="bg-gradient-to-br from-blue-50 to-purple-50 p-8 rounded-2xl card-hover">
+                                    <div className="feature-icon text-white">
+                                        {feature.icon}
+                                    </div>
+                                    <h3 className="text-2xl font-bold mb-4 text-center">{feature.title}</h3>
+                                    <p className="text-gray-700 mb-6 text-center leading-relaxed">{feature.description}</p>
+                                    <ul className="space-y-3">
+                                        {feature.items.map((item, i) => (
+                                            <li key={i} className="flex items-center gap-3">
+                                                <span className="text-green-500 text-xl">✓</span>
+                                                <span className="text-gray-700">{item}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // Security Detail Section
+        const SecuritySection = () => {
+            return (
+                <section className="section-padding gradient-bg text-white">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                                Bảo mật đẳng cấp <span className="text-yellow-300">thế giới</span>
+                            </h2>
+                            <p className="text-xl text-white/90">Công nghệ bảo vệ dữ liệu của bạn ở mức tối đa</p>
+                        </div>
+                        
+                        <div className="grid md:grid-cols-3 gap-8">
+                            <div className="security-layer card-hover">
+                                <div className="text-5xl mb-4 text-center">🔬</div>
+                                <h3 className="text-2xl font-bold mb-4 text-center">Zero-Knowledge Proof</h3>
+                                <p className="text-white/80 mb-4">Xác minh danh tính KHÔNG CẦN tiết lộ thông tin cá nhân.</p>
+                                <div className="bg-white/10 p-4 rounded-lg">
+                                    <p className="text-sm text-white/90">💡 Ví dụ: Chứng minh bạn trên 18 tuổi mà không cần nói ngày sinh chính xác</p>
+                                </div>
+                            </div>
+                            
+                            <div className="security-layer card-hover">
+                                <div className="text-5xl mb-4 text-center">🏦</div>
+                                <h3 className="text-2xl font-bold mb-4 text-center">Mã Hóa Đa Lớp</h3>
+                                <p className="text-white/80 mb-4">Chuẩn bảo mật cấp ngân hàng với encryption end-to-end.</p>
+                                <ul className="space-y-2 text-white/90">
+                                    <li>✓ Multi-signature protection</li>
+                                    <li>✓ Hardware security module</li>
+                                    <li>✓ Biometric authentication</li>
+                                </ul>
+                            </div>
+                            
+                            <div className="security-layer card-hover">
+                                <div className="text-5xl mb-4 text-center">🌐</div>
+                                <h3 className="text-2xl font-bold mb-4 text-center">Bảo Mật Phân Tán</h3>
+                                <p className="text-white/80 mb-4">Dữ liệu không lưu tập trung, loại bỏ điểm yếu duy nhất.</p>
+                                <ul className="space-y-2 text-white/90">
+                                    <li>✓ Distributed storage</li>
+                                    <li>✓ No single point of failure</li>
+                                    <li>✓ Blockchain backbone</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // Non-Custodial Wallet Section
+        const NonCustodialSection = () => {
+            return (
+                <section className="section-padding bg-white">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                                Ví <span className="gradient-text">Non-Custodial</span> Thế Hệ Mới
+                            </h2>
+                            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                                An toàn như ví cứng, tiện lợi hơn cả ví custodial - không cần nhớ seed phrase phức tạp
+                            </p>
+                        </div>
+                        
+                        <div className="grid md:grid-cols-2 gap-12 mb-16">
+                            <div className="bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl p-8 border-2 border-red-200">
+                                <div className="flex items-center gap-3 mb-6">
+                                    <span className="text-4xl">❌</span>
+                                    <h3 className="text-2xl font-bold text-gray-800">Ví Crypto Truyền Thống</h3>
+                                </div>
+                                <ul className="space-y-4">
+                                    <li className="flex items-start gap-3">
+                                        <span className="text-red-500 text-xl mt-1">⚠️</span>
+                                        <div>
+                                            <p className="font-semibold text-gray-800">Seed phrase 12-24 từ</p>
+                                            <p className="text-sm text-gray-600">Khó nhớ, dễ mất, viết sai là mất hết</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <span className="text-red-500 text-xl mt-1">⚠️</span>
+                                        <div>
+                                            <p className="font-semibold text-gray-800">Mất là mất vĩnh viễn</p>
+                                            <p className="text-sm text-gray-600">Không có cách nào khôi phục nếu quên</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <span className="text-red-500 text-xl mt-1">⚠️</span>
+                                        <div>
+                                            <p className="font-semibold text-gray-800">Rủi ro bảo mật cao</p>
+                                            <p className="text-sm text-gray-600">Viết giấy bị mất, lưu điện thoại bị hack</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div className="bg-gradient-to-br from-green-50 to-blue-50 rounded-2xl p-8 border-2 border-green-400">
+                                <div className="flex items-center gap-3 mb-6">
+                                    <span className="text-4xl">✅</span>
+                                    <h3 className="text-2xl font-bold text-gray-800">Ví 1Hub</h3>
+                                </div>
+                                <ul className="space-y-4">
+                                    <li className="flex items-start gap-3">
+                                        <span className="text-green-500 text-xl mt-1">✓</span>
+                                        <div>
+                                            <p className="font-semibold text-gray-800">Không cần nhớ seed phrase</p>
+                                            <p className="text-sm text-gray-600">Chỉ cần CCCD và khuôn mặt của bạn</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <span className="text-green-500 text-xl mt-1">✓</span>
+                                        <div>
+                                            <p className="font-semibold text-gray-800">Khôi phục tự động (VN)</p>
+                                            <p className="text-sm text-gray-600">Mất điện thoại? Xác thực lại là xong</p>
+                                        </div>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <span className="text-green-500 text-xl mt-1">✓</span>
+                                        <div>
+                                            <p className="font-semibold text-gray-800">Bảo mật tuyệt đối</p>
+                                            <p className="text-sm text-gray-600">Private key mã hóa, 1Hub không giữ</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
+                            <h3 className="text-3xl font-bold mb-6 text-center">Cách 1Hub Bảo Vệ Private Key của Bạn</h3>
+                            
+                            <div className="grid md:grid-cols-3 gap-6">
+                                <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6">
+                                    <div className="text-4xl mb-4 text-center">🔐</div>
+                                    <h4 className="font-bold text-lg mb-3 text-center">1. Mã Hóa Bằng Định Danh</h4>
+                                    <p className="text-white/90 text-sm text-center">
+                                        Private key được mã hóa bằng dữ liệu định danh từ Bộ Công An. 
+                                        Chỉ chính chủ mới giải mã được.
+                                    </p>
+                                </div>
+                                
+                                <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6">
+                                    <div className="text-4xl mb-4 text-center">☁️</div>
+                                    <h4 className="font-bold text-lg mb-3 text-center">2. Lưu Cloud Cá Nhân</h4>
+                                    <p className="text-white/90 text-sm text-center">
+                                        File backup lưu trên Google Drive/iCloud/OneDrive CỦA BẠN. 
+                                        1Hub không có quyền truy cập.
+                                    </p>
+                                </div>
+                                
+                                <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6">
+                                    <div className="text-4xl mb-4 text-center">👤</div>
+                                    <h4 className="font-bold text-lg mb-3 text-center">3. Xác Thực Chính Chủ</h4>
+                                    <p className="text-white/90 text-sm text-center">
+                                        Khôi phục ví yêu cầu xác thực lại với Bộ Công An. 
+                                        Không ai khác có thể truy cập.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div className="mt-8 bg-yellow-400/20 border border-yellow-400 rounded-xl p-6">
+                                <div className="flex items-start gap-4">
+                                    <span className="text-3xl">💡</span>
+                                    <div>
+                                        <h4 className="font-bold text-lg mb-2 text-yellow-300">Tại sao 1Hub an toàn hơn?</h4>
+                                        <ul className="space-y-2 text-white/90 text-sm">
+                                            <li>✓ <strong>1Hub không giữ private key</strong> - Không thể bị hack từ server</li>
+                                            <li>✓ <strong>Private key không rời thiết bị ở dạng chưa mã hóa</strong> - An toàn tuyệt đối</li>
+                                            <li>✓ <strong>Chỉ chính chủ được Bộ Công An xác thực mới giải mã được</strong> - Không lo bị đánh cắp</li>
+                                            <li>✓ <strong>Cloud thuộc quyền sở hữu người dùng</strong> - Bạn kiểm soát hoàn toàn</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // Benefits Section
+        const BenefitsSection = () => {
+            const scenarios = [
+                {
+                    title: 'Người Dùng Phổ Thông',
+                    icon: '🛒',
+                    benefits: [
+                        'Shopping không cần tạo tài khoản mới',
+                        'Thanh toán một chạm',
+                        'Quản lý mọi dịch vụ ở một nơi',
+                        'Tiết kiệm 10+ giờ/tháng'
+                    ],
+                    color: 'from-blue-400 to-blue-600'
+                },
+                {
+                    title: 'Nhà Đầu Tư Crypto',
+                    icon: '💰',
+                    benefits: [
+                        'Quản lý tài sản Web3 dễ dàng',
+                        'Chuyển đổi linh hoạt giữa Web2-Web3',
+                        'Theo dõi portfolio tập trung',
+                        'Bảo mật như két sắt ngân hàng'
+                    ],
+                    color: 'from-purple-400 to-purple-600'
+                },
+                {
+                    title: 'Doanh Nghiệp/Developer',
+                    icon: '🚀',
+                    benefits: [
+                        'Tích hợp miniapp nhanh chóng',
+                        'Tiếp cận triệu user đã xác thực',
+                        'Không cần xây dựng hệ thống eKYC',
+                        'Tăng tỷ lệ chuyển đổi'
+                    ],
+                    color: 'from-green-400 to-green-600'
+                },
+                {
+                    title: 'Người Quan Tâm Bảo Mật',
+                    icon: '🛡️',
+                    benefits: [
+                        'Kiểm soát 100% dữ liệu cá nhân',
+                        'Theo dõi ai đang truy cập thông tin',
+                        'Thu hồi quyền truy cập bất cứ lúc nào',
+                        'Công nghệ Zero-Knowledge bảo vệ'
+                    ],
+                    color: 'from-red-400 to-red-600'
+                }
+            ];
+
+            return (
+                <section id="benefits" className="section-padding bg-gray-50">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                                Cuộc sống số của bạn sẽ <span className="gradient-text">thay đổi như thế nào?</span>
+                            </h2>
+                        </div>
+                        
+                        <div className="grid md:grid-cols-2 gap-8">
+                            {scenarios.map((scenario, index) => (
+                                <div key={index} className="bg-white rounded-2xl overflow-hidden shadow-lg card-hover">
+                                    <div className={`bg-gradient-to-r ${scenario.color} p-6 text-white`}>
+                                        <div className="flex items-center gap-4">
+                                            <span className="text-5xl">{scenario.icon}</span>
+                                            <h3 className="text-2xl font-bold">{scenario.title}</h3>
+                                        </div>
+                                    </div>
+                                    <div className="p-6">
+                                        <ul className="space-y-4">
+                                            {scenario.benefits.map((benefit, i) => (
+                                                <li key={i} className="flex items-start gap-3">
+                                                    <span className="text-green-500 text-xl mt-1">✓</span>
+                                                    <span className="text-gray-700">{benefit}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // Architecture Section
+        const ArchitectureSection = () => {
+            const layers = [
+                { name: 'Presentation Layer', desc: 'Giao diện thân thiện • Cross-platform • Responsive', icon: '🎨' },
+                { name: 'Application Layer', desc: 'Miniapp ecosystem • Web2 & Web3 integration', icon: '⚙️' },
+                { name: 'Security Layer', desc: 'Zero-Knowledge • Multi-layer encryption', icon: '🔐' },
+                { name: 'Infrastructure Layer', desc: 'CMND Quốc Gia • Blockchain backbone', icon: '🏛️' }
+            ];
+
+            return (
+                <section className="section-padding bg-white">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                                Nền tảng công nghệ <span className="gradient-text">vượt trội</span>
+                            </h2>
+                            <p className="text-xl text-gray-600">Kiến trúc phân lớp hiện đại và bảo mật</p>
+                        </div>
+                        
+                        <div className="max-w-3xl mx-auto space-y-4">
+                            {layers.map((layer, index) => (
+                                <div key={index} className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl border-l-4 border-blue-500 card-hover">
+                                    <div className="flex items-center gap-4">
+                                        <span className="text-4xl">{layer.icon}</span>
+                                        <div>
+                                            <h3 className="text-xl font-bold text-gray-800">{layer.name}</h3>
+                                            <p className="text-gray-600">{layer.desc}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // Trust & Partners Section
+        const TrustPartnersSection = () => {
+            return (
+                <section id="trust" className="section-padding bg-gradient-to-br from-blue-50 to-purple-50">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                                <span className="gradient-text">Your Identity, Your Assets</span>
+                            </h2>
+                            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                                Đề cao việc bảo vệ tất cả thông tin và tài sản của người dùng là sứ mệnh cốt lõi của 1Hub
+                            </p>
+                        </div>
+                        
+                        <div className="grid md:grid-cols-2 gap-12 mb-16">
+                            <div className="bg-white rounded-2xl p-8 shadow-lg card-hover">
+                                <div className="text-6xl mb-6 text-center">🔐</div>
+                                <h3 className="text-2xl font-bold mb-4 text-center gradient-text">Danh Tính Của Bạn</h3>
+                                <p className="text-gray-700 mb-6 text-center leading-relaxed">
+                                    Thông tin cá nhân được bảo vệ tối đa với công nghệ Zero-Knowledge Proof. 
+                                    Bạn quyết định chia sẻ gì, với ai, và khi nào.
+                                </p>
+                                <ul className="space-y-3">
+                                    <li className="flex items-center gap-3">
+                                        <span className="text-green-500 text-xl">✓</span>
+                                        <span className="text-gray-700">Kiểm soát hoàn toàn dữ liệu cá nhân</span>
+                                    </li>
+                                    <li className="flex items-center gap-3">
+                                        <span className="text-green-500 text-xl">✓</span>
+                                        <span className="text-gray-700">Xác thực bảo mật với CMND Quốc Gia</span>
+                                    </li>
+                                    <li className="flex items-center gap-3">
+                                        <span className="text-green-500 text-xl">✓</span>
+                                        <span className="text-gray-700">Không chia sẻ mà không có sự đồng ý</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div className="bg-white rounded-2xl p-8 shadow-lg card-hover">
+                                <div className="text-6xl mb-6 text-center">💎</div>
+                                <h3 className="text-2xl font-bold mb-4 text-center gradient-text">Tài Sản Của Bạn</h3>
+                                <p className="text-gray-700 mb-6 text-center leading-relaxed">
+                                    Tài sản số và tài chính được bảo vệ với chuẩn mã hóa cấp ngân hàng. 
+                                    An toàn tuyệt đối cho cả Web2 và Web3.
+                                </p>
+                                <ul className="space-y-3">
+                                    <li className="flex items-center gap-3">
+                                        <span className="text-green-500 text-xl">✓</span>
+                                        <span className="text-gray-700">Bảo mật đa lớp cho tài sản số</span>
+                                    </li>
+                                    <li className="flex items-center gap-3">
+                                        <span className="text-green-500 text-xl">✓</span>
+                                        <span className="text-gray-700">Quản lý thống nhất Web2 & Web3</span>
+                                    </li>
+                                    <li className="flex items-center gap-3">
+                                        <span className="text-green-500 text-xl">✓</span>
+                                        <span className="text-gray-700">Giao dịch an toàn, minh bạch</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div className="bg-white rounded-2xl p-8 shadow-lg">
+                            <div className="text-center mb-8">
+                                <div className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-100 to-purple-100 px-6 py-3 rounded-full mb-4">
+                                    <span className="text-3xl">🤝</span>
+                                    <span className="font-bold text-gray-800 text-lg">Đối Tác Đáng Tin Cậy</span>
+                                </div>
+                                <h3 className="text-2xl font-bold mb-4">Hệ Sinh Thái Miniapp Hợp Pháp</h3>
+                                <p className="text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                                    Tất cả các ứng dụng miniapp phát triển trên nền tảng 1Hub đều đến từ các đối tác 
+                                    hoạt động hợp pháp, được xác minh và đánh giá kỹ lưỡng về chất lượng dịch vụ và bảo mật.
+                                </p>
+                            </div>
+                            
+                            <div className="grid md:grid-cols-4 gap-6">
+                                <div className="text-center p-4">
+                                    <div className="text-4xl mb-3">✅</div>
+                                    <h4 className="font-bold text-gray-800 mb-2">Xác Minh Nghiêm Ngặt</h4>
+                                    <p className="text-sm text-gray-600">Đối tác được kiểm tra pháp lý và giấy phép</p>
+                                </div>
+                                <div className="text-center p-4">
+                                    <div className="text-4xl mb-3">🛡️</div>
+                                    <h4 className="font-bold text-gray-800 mb-2">Bảo Mật Cam Kết</h4>
+                                    <p className="text-sm text-gray-600">Tuân thủ tiêu chuẩn bảo mật của 1Hub</p>
+                                </div>
+                                <div className="text-center p-4">
+                                    <div className="text-4xl mb-3">⭐</div>
+                                    <h4 className="font-bold text-gray-800 mb-2">Chất Lượng Đảm Bảo</h4>
+                                    <p className="text-sm text-gray-600">Đánh giá và giám sát liên tục</p>
+                                </div>
+                                <div className="text-center p-4">
+                                    <div className="text-4xl mb-3">🔒</div>
+                                    <h4 className="font-bold text-gray-800 mb-2">Quyền Riêng Tư</h4>
+                                    <p className="text-sm text-gray-600">Tuân thủ chính sách bảo vệ người dùng</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // How It Works Section
+        const HowItWorksSection = () => {
+            const [activeTab, setActiveTab] = useState('vietnam');
+
+            const vietnamSteps = [
+                {
+                    number: '1',
+                    title: 'Tạo Mật Khẩu',
+                    time: '30 giây',
+                    desc: 'Tạo tài khoản với mật khẩu bảo mật mạnh hoặc sử dụng sinh trắc học',
+                    icon: '🔑'
+                },
+                {
+                    number: '2',
+                    title: 'eKYC với Bộ Công An',
+                    time: '1-2 phút',
+                    desc: 'Đọc NFC từ CCCD gắn chip và chụp ảnh khuôn mặt. Hệ thống kiểm tra trùng khớp với dữ liệu Bộ Công An trong 5-10 giây',
+                    icon: '✅',
+                    highlight: true
+                },
+                {
+                    number: '3',
+                    title: 'Sao Lưu Tự Động',
+                    time: '1 phút',
+                    desc: 'Kết nối với cloud cá nhân (Google Drive/iCloud/OneDrive). Private key được mã hóa bằng định danh và tự động sao lưu',
+                    icon: '☁️'
+                },
+                {
+                    number: '4',
+                    title: 'Hoàn Tất & Sử Dụng',
+                    time: 'Ngay lập tức',
+                    desc: 'Bắt đầu sử dụng tất cả miniapp mà không cần đăng ký lại. Tự động đăng nhập mọi dịch vụ',
+                    icon: '🚀'
+                }
+            ];
+
+            const internationalSteps = [
+                {
+                    number: '1',
+                    title: 'Tạo Mật Khẩu',
+                    time: '30 giây',
+                    desc: 'Create account with secure password or use biometric authentication',
+                    icon: '🔑'
+                },
+                {
+                    number: '2',
+                    title: 'Tạo Ví',
+                    time: '1 phút',
+                    desc: 'System generates your wallet with public and private keys',
+                    icon: '💼'
+                },
+                {
+                    number: '3',
+                    title: 'Sao Lưu Thủ Công',
+                    time: '2 phút',
+                    desc: 'Backup your private key manually or use passkey with personal cloud storage',
+                    icon: '📝'
+                },
+                {
+                    number: '4',
+                    title: 'Start Using',
+                    time: 'Immediate',
+                    desc: 'Access miniapps and services on the platform',
+                    icon: '🚀'
+                }
+            ];
+
+            const steps = activeTab === 'vietnam' ? vietnamSteps : internationalSteps;
+
+            return (
+                <section id="how-it-works" className="section-padding gradient-bg text-white">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center mb-12">
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                                Cách <span className="text-yellow-300">bắt đầu</span>
+                            </h2>
+                            <p className="text-xl text-white/90 mb-8">Quy trình đơn giản, bảo mật tối đa</p>
+                            
+                            <div className="inline-flex bg-white/20 backdrop-blur-lg rounded-full p-2 gap-2">
+                                <button 
+                                    onClick={() => setActiveTab('vietnam')}
+                                    className={`px-8 py-3 rounded-full font-semibold transition-all ${activeTab === 'vietnam' ? 'bg-white text-blue-600' : 'text-white hover:bg-white/10'}`}
+                                >
+                                    🇻🇳 Người Việt Nam
+                                </button>
+                                <button 
+                                    onClick={() => setActiveTab('international')}
+                                    className={`px-8 py-3 rounded-full font-semibold transition-all ${activeTab === 'international' ? 'bg-white text-blue-600' : 'text-white hover:bg-white/10'}`}
+                                >
+                                    🌍 International Users
+                                </button>
+                            </div>
+                        </div>
+                        
+                        {activeTab === 'vietnam' && (
+                            <div className="bg-yellow-400/20 backdrop-blur-lg border border-yellow-400/50 rounded-2xl p-6 mb-12 max-w-4xl mx-auto">
+                                <div className="flex items-start gap-4">
+                                    <span className="text-4xl">⭐</span>
+                                    <div>
+                                        <h3 className="text-xl font-bold text-yellow-300 mb-2">Đặc quyền dành cho người Việt Nam</h3>
+                                        <p className="text-white/90 leading-relaxed">
+                                            Khôi phục ví <strong>TỰ ĐỘNG</strong> mà không cần nhớ seed phrase phức tạp! 
+                                            Chỉ cần xác thực danh tính qua CCCD và khuôn mặt - hệ thống tự động khôi phục hoàn toàn.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                        
+                        <div className="grid md:grid-cols-4 gap-6 mb-12">
+                            {steps.map((step, index) => (
+                                <div key={index} className="relative">
+                                    <div className={`bg-white/10 backdrop-blur-lg rounded-2xl p-6 card-hover h-full border ${step.highlight ? 'border-yellow-400 border-2' : 'border-white/20'}`}>
+                                        <div className="text-6xl mb-4 text-center">{step.icon}</div>
+                                        <div className="text-center mb-4">
+                                            <span className={`inline-block ${step.highlight ? 'bg-yellow-400' : 'bg-white/30'} ${step.highlight ? 'text-gray-900' : 'text-white'} font-bold text-2xl w-12 h-12 rounded-full flex items-center justify-center mx-auto`}>
+                                                {step.number}
+                                            </span>
+                                        </div>
+                                        <h3 className="text-xl font-bold mb-2 text-center">{step.title}</h3>
+                                        <p className={`text-center mb-4 font-semibold ${step.highlight ? 'text-yellow-300' : 'text-white/70'}`}>⏱️ {step.time}</p>
+                                        <p className="text-white/90 text-center text-sm leading-relaxed">{step.desc}</p>
+                                    </div>
+                                    {index < steps.length - 1 && (
+                                        <div className="hidden md:block absolute top-1/2 -right-3 transform -translate-y-1/2 text-3xl text-yellow-300 z-10">
+                                            →
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                        
+                        <div className="text-center">
+                            <button className="bg-yellow-400 text-gray-900 px-10 py-4 rounded-full font-bold text-xl hover:scale-105 transition-transform shadow-2xl">
+                                Bắt đầu ngay - Miễn phí
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // FAQ Section
+        const FAQSection = () => {
+            const [activeIndex, setActiveIndex] = useState(null);
+
+            const faqs = [
+                {
+                    q: '1Hub có miễn phí không?',
+                    a: 'Tài khoản cơ bản hoàn toàn miễn phí. Một số miniapp cao cấp có thể có phí riêng tùy theo nhà cung cấp dịch vụ.'
+                },
+                {
+                    q: 'Ví 1Hub có an toàn không? 1Hub có giữ private key của tôi không?',
+                    a: 'Tuyệt đối an toàn! 1Hub sử dụng kiến trúc Non-Custodial - chúng tôi KHÔNG GIỮ private key của bạn. Private key được mã hóa bằng định danh và lưu trên cloud CỦA BẠN (Google Drive/iCloud/OneDrive). Chỉ chính chủ được xác thực bởi Bộ Công An mới có thể giải mã.'
+                },
+                {
+                    q: 'Nếu mất điện thoại, tôi có mất ví không?',
+                    a: 'KHÔNG! Đây là điểm mạnh của 1Hub. Với người Việt Nam, bạn chỉ cần đăng nhập lại trên thiết bị mới, xác thực bằng CCCD và khuôn mặt - hệ thống sẽ TỰ ĐỘNG khôi phục ví của bạn từ cloud. Không cần nhớ seed phrase phức tạp!'
+                },
+                {
+                    q: 'Tại sao tôi không cần nhớ seed phrase như các ví crypto khác?',
+                    a: '1Hub sử dụng công nghệ mã hóa đột phá: Private key được mã hóa bằng dữ liệu định danh từ Bộ Công An (CCCD + sinh trắc khuôn mặt). Khi cần khôi phục, bạn chỉ cần xác thực lại danh tính - hệ thống tự động giải mã và khôi phục ví. An toàn hơn và tiện lợi hơn nhiều so với việc ghi nhớ 12-24 từ ngẫu nhiên.'
+                },
+                {
+                    q: 'Tôi có thể hủy chia sẻ dữ liệu với miniapp không?',
+                    a: 'Có, bất cứ lúc nào! Bạn có toàn quyền kiểm soát và có thể thu hồi quyền truy cập chỉ bằng một chạm trong phần cài đặt quyền riêng tư.'
+                },
+                {
+                    q: '1Hub khác gì với các ví điện tử thông thường?',
+                    a: '1Hub không chỉ là ví điện tử. Đây là siêu ứng dụng tích hợp cả Web2 (ngân hàng, thanh toán truyền thống) và Web3 (crypto, blockchain) với hệ thống eKYC quốc gia và ví Non-Custodial không cần seed phrase - độc nhất tại Việt Nam.'
+                },
+                {
+                    q: 'Người nước ngoài có dùng được 1Hub không?',
+                    a: 'Có! Người nước ngoài hoàn toàn có thể sử dụng 1Hub. Tuy nhiên, tính năng khôi phục ví tự động hiện tại chỉ hỗ trợ người Việt Nam (do tích hợp với Bộ Công An). Người nước ngoài sẽ sao lưu thủ công hoặc dùng passkey với cloud cá nhân.'
+                },
+                {
+                    q: 'Tích hợp với CMND Quốc Gia nghĩa là gì?',
+                    a: 'Chúng tôi kết nối trực tiếp với Cơ Sở Hạ Tầng Dữ Liệu CMND của Bộ Công An để xác thực danh tính (qua đọc NFC CCCD và sinh trắc khuôn mặt). Đây là xác thực chính thức, chính xác và an toàn nhất tại Việt Nam, giúp bạn không phải eKYC lại nhiều lần và có thể khôi phục ví tự động.'
+                },
+                {
+                    q: 'Cloud của tôi có bị 1Hub truy cập không?',
+                    a: 'KHÔNG! 1Hub chỉ xin phép GHI file backup đã mã hóa lên cloud CỦA BẠN. Chúng tôi không có quyền ĐỌC hay TRUY CẬP các file khác. Cloud storage là của bạn (Google Drive/iCloud/OneDrive) và chỉ bạn mới có toàn quyền kiểm soát.'
+                }
+            ];
+
+            return (
+                <section id="faq" className="section-padding bg-gray-50">
+                    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                                Câu hỏi <span className="gradient-text">thường gặp</span>
+                            </h2>
+                        </div>
+                        
+                        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+                            {faqs.map((faq, index) => (
+                                <div key={index} className="accordion-item">
+                                    <button 
+                                        className="accordion-button flex justify-between items-center w-full"
+                                        onClick={() => setActiveIndex(activeIndex === index ? null : index)}
+                                    >
+                                        <span className="text-lg font-semibold text-gray-800">{faq.q}</span>
+                                        <span className="text-2xl text-blue-600 transform transition-transform">
+                                            {activeIndex === index ? '−' : '+'}
+                                        </span>
+                                    </button>
+                                    <div className={`accordion-content ${activeIndex === index ? 'active' : ''}`}>
+                                        <div className="px-6 pb-6 text-gray-600 leading-relaxed">
+                                            {faq.a}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // Final CTA Section
+        const FinalCTASection = () => {
+            return (
+                <section className="section-padding gradient-bg text-white relative overflow-hidden">
+                    <div className="absolute inset-0 opacity-10">
+                        <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl animate-float"></div>
+                        <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-300 rounded-full blur-3xl animate-float" style={{animationDelay: '2s'}}></div>
+                    </div>
+                    
+                    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                        <h2 className="text-4xl md:text-6xl font-black mb-6">
+                            SẴN SÀNG BƯỚC VÀO TƯƠNG LAI?
+                        </h2>
+                        <p className="text-xl md:text-2xl mb-12 text-white/90">
+                            Hàng triệu người đã tin dùng 1Hub<br/>
+                            Đến lượt bạn trải nghiệm sự khác biệt
+                        </p>
+                        
+                        <div className="flex flex-col sm:flex-row gap-6 justify-center mb-12">
+                            <button className="bg-yellow-400 text-gray-900 px-10 py-5 rounded-full font-bold text-xl hover:scale-105 transition-transform shadow-2xl">
+                                Tải 1Hub ngay - Miễn phí
+                            </button>
+                            <button className="border-2 border-white text-white px-10 py-5 rounded-full font-bold text-xl hover:bg-white hover:text-blue-600 transition-all">
+                                Xem video demo 60s
+                            </button>
+                        </div>
+                        
+                        <div className="flex justify-center gap-6 mb-8">
+                            <div className="bg-white/20 backdrop-blur-lg rounded-xl px-6 py-3 hover:bg-white/30 transition cursor-pointer">
+                                <div className="flex items-center gap-3">
+                                    <span className="text-2xl">📱</span>
+                                    <span className="font-semibold">App Store</span>
+                                </div>
+                            </div>
+                            <div className="bg-white/20 backdrop-blur-lg rounded-xl px-6 py-3 hover:bg-white/30 transition cursor-pointer">
+                                <div className="flex items-center gap-3">
+                                    <span className="text-2xl">📱</span>
+                                    <span className="font-semibold">Google Play</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p className="text-white/80">
+                            ⭐ 4.8/5 sao trên cả App Store và Google Play
+                        </p>
+                    </div>
+                </section>
+            );
+        };
+
+        // Footer Component
+        const Footer = () => {
+            return (
+                <footer className="bg-gray-900 text-white py-16">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="grid md:grid-cols-4 gap-8 mb-12">
+                            <div>
+                                <h3 className="text-2xl font-bold gradient-text mb-4">1Hub</h3>
+                                <p className="text-gray-400">Siêu ứng dụng kết nối Web2 & Web3 đầu tiên tại Việt Nam</p>
+                            </div>
+                            
+                            <div>
+                                <h4 className="font-bold mb-4">Sản phẩm</h4>
+                                <ul className="space-y-2 text-gray-400">
+                                    <li><a href="#features" className="hover:text-white transition">Tính năng</a></li>
+                                    <li><a href="#trust" className="hover:text-white transition">Bảo mật</a></li>
+                                    <li><a href="#trust" className="hover:text-white transition">Đối tác</a></li>
+                                    <li><a href="#how-it-works" className="hover:text-white transition">Cách dùng</a></li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h4 className="font-bold mb-4">Tài nguyên</h4>
+                                <ul className="space-y-2 text-gray-400">
+                                    <li><a href="#" className="hover:text-white transition">Blog</a></li>
+                                    <li><a href="#" className="hover:text-white transition">Tài liệu</a></li>
+                                    <li><a href="#" className="hover:text-white transition">API Docs</a></li>
+                                    <li><a href="#faq" className="hover:text-white transition">FAQ</a></li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h4 className="font-bold mb-4">Kết nối</h4>
+                                <ul className="space-y-2 text-gray-400">
+                                    <li>📧 support@1hub.vn</li>
+                                    <li>📞 1900 1234</li>
+                                    <li className="flex gap-4 mt-4">
+                                        <a href="#" className="text-2xl hover:text-blue-400 transition">📘</a>
+                                        <a href="#" className="text-2xl hover:text-blue-400 transition">🐦</a>
+                                        <a href="#" className="text-2xl hover:text-pink-400 transition">📷</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div className="border-t border-gray-800 pt-8 text-center text-gray-400 text-sm">
+                            <p>© 2024 1Hub. All rights reserved. | <a href="#" className="hover:text-white">Privacy Policy</a> | <a href="#" className="hover:text-white">Terms of Service</a></p>
+                        </div>
+                    </div>
+                </footer>
+            );
+        };
+
+        // Main App Component
+        const App = () => {
+            return (
+                <div className="min-h-screen">
+                    <Navbar />
+                    <HeroSection />
+                    <ProblemSolutionSection />
+                    <FeaturesSection />
+                    <SecuritySection />
+                    <NonCustodialSection />
+                    <BenefitsSection />
+                    <ArchitectureSection />
+                    <TrustPartnersSection />
+                    <HowItWorksSection />
+                    <FAQSection />
+                    <FinalCTASection />
+                    <Footer />
+                </div>
+            );
+        };
+
+        // Render the app
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
